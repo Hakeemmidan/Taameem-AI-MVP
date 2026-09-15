@@ -1,0 +1,6 @@
+role_id,name_en,name_ar,review_obligations,approve_obligations,assign_tasks,upload_evidence,send_to_regulator,run_inspection,edit_policies,own_department_only,people_in_this_institution
+cco,Chief Compliance Officer,رئيس إدارة الالتزام,yes,yes,yes,yes,yes,yes,yes,no,1
+manager,Compliance Manager,مدير الالتزام,yes,yes,yes,yes,no,yes,yes,no,1
+officer,Compliance Officer,أخصائي التزام,yes,no,no,yes,no,yes,no,no,1
+dept_head,Department Head,رئيس إدارة,no,no,no,yes,no,no,no,yes,19
+auditor,Internal Auditor,مراجع داخلي,no,no,no,no,no,yes,no,no,1

@@ -1,0 +1,16 @@
+department_id,name_en,name_ar,head_employee_id,head_name_en,head_name_ar,headcount
+compliance,Compliance,إدارة الالتزام,E-001,Sarah Abdullah Al-Rashid,سارة عبدالله الرشيد,18
+legal,Legal Affairs,الشؤون القانونية,E-010,Khalid Ibrahim Al-Suwailem,خالد إبراهيم السويلم,11
+it,Information Technology,تقنية المعلومات,E-020,Abdulaziz Saleh Al-Ghamdi,عبدالعزيز صالح الغامدي,96
+operations,Operations,العمليات,E-030,Saud Abdulrahman Al-Anzi,سعود عبدالرحمن العنزي,142
+risk,Risk Management,إدارة المخاطر,E-040,Reem Khalid Al-Nasser,ريم خالد الناصر,24
+audit,Internal Audit,المراجعة الداخلية,E-050,Talal Saad Al-Hamdan,طلال سعد الحمدان,15
+retail,Retail Banking,الخدمات المصرفية للأفراد,E-060,Meshari Abdullah Al-Turki,مشاري عبدالله التركي,310
+care,Customer Care,العناية بالعملاء,E-070,Ghada Sultan Al-Ajmi,غادة سلطان العجمي,128
+aml,Financial Crime & AML,مكافحة الجرائم المالية,E-080,Sultan Mohammed Al-Rasheed,سلطان محمد الرشيد,22
+infosec,Information Security,أمن المعلومات,E-090,Waleed Saud Al-Babtain,وليد سعود البابطين,27
+privacy,Data & Privacy,البيانات والخصوصية,E-100,Norah Abdulaziz Al-Fahad,نورة عبدالعزيز الفهد,9
+hr,Human Resources,الموارد البشرية,E-110,Munira Saleh Al-Saleh,منيرة صالح الصالح,34
+finance,Finance,الإدارة المالية,E-120,Badr Ibrahim Al-Sadhan,بدر إبراهيم السدحان,41
+marketing,Marketing & Communications,التسويق والاتصال,E-130,Tala Faisal Al-Rajhi,تالا فيصل الراجحي,26
+procurement,Procurement & Outsourcing,المشتريات والإسناد,E-140,Hisham Nasser Al-Qudaimi,هشام ناصر القديمي,17

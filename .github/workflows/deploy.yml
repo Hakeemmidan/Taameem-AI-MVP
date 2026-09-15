@@ -1,0 +1,57 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one deployment at a time, and let a newer push finish rather than queueing
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # types, then the data itself: no reference may cross a tenant boundary,
+      # no figure on screen may disagree with the library behind it, and no
+      # task may ship without instructions
+      - run: npm run check
+
+      - name: Build the static site
+        # Pages serves from /<repo>/, so the site is built for that subfolder
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ github.event.repository.name != github.repository_owner && format('/{0}', github.event.repository.name) || '' }}
+        run: |
+          npm run seed
+          npm run build
+          touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

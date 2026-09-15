@@ -1,0 +1,16 @@
+department_id,name_en,name_ar,head_employee_id,head_name_en,head_name_ar,headcount
+compliance,Compliance,إدارة الالتزام,E-201,Lama Abdulmohsen Al-Barrak,لمى عبدالمحسن البراك,7
+claims,Claims,إدارة المطالبات,E-210,Abdulrahman Saad Al-Ruwaili,عبدالرحمن سعد الرويلي,96
+underwriting,Underwriting,الاكتتاب,E-220,Amal Turki Al-Hazmi,أمل تركي الحازمي,48
+actuarial,Actuarial & Pricing,الاكتوارية والتسعير,E-230,Rayan Majed Al-Suhaimi,ريان ماجد السهيمي,9
+care,Policyholder Care,العناية بحملة الوثائق,E-240,Noura Sultan Al-Dawsari,نورة سلطان الدوسري,62
+legal,Legal Affairs,الشؤون القانونية,E-250,Dalal Ibrahim Al-Kathiri,دلال إبراهيم الكثيري,6
+it,Information Technology,تقنية المعلومات,E-260,Mohammed Ali Al-Ghamdi,محمد علي الغامدي,34
+risk,Risk Management,إدارة المخاطر,E-270,Yousef Rashed Al-Hamad,يوسف راشد الحمد,8
+audit,Internal Audit,المراجعة الداخلية,E-280,Aljohara Nasser Al-Sultan,الجوهرة ناصر السلطان,5
+infosec,Information Security,أمن المعلومات,E-290,Meshal Omar Al-Shaya,مشعل عمر الشايع,11
+privacy,Data & Privacy,البيانات والخصوصية,E-295,Reema Adel Al-Bassam,ريما عادل البسام,3
+operations,Operations,العمليات,E-300,Nawaf Saud Al-Muqrin,نواف سعود المقرن,40
+finance,Finance,الإدارة المالية,E-310,Haya Mansour Al-Duaij,هيا منصور الدعيج,18
+marketing,Marketing,التسويق,E-320,Rakan Fahad Al-Sabti,راكان فهد السبتي,9
+hr,Human Resources,الموارد البشرية,E-330,Latifa Saad Al-Rubaish,لطيفة سعد الربيش,12

@@ -1,0 +1,356 @@
+import type { Bi } from '@/lib/types';
+
+/**
+ * Every string the interface says. Arabic is the primary language of the
+ * product, so it is written first-class, not translated from English.
+ */
+export const DICT = {
+  'app.name': { en: 'Taameem', ar: 'تعميم' },
+  'app.tagline': { en: 'From an announcement to proof', ar: 'من التعميم إلى الإثبات' },
+
+  // portals
+  'portal.choose': { en: 'Choose a workspace', ar: 'اختر مساحة العمل' },
+  'portal.institution': { en: 'Institution workspace', ar: 'مساحة عمل المنشأة' },
+  'portal.institution.desc': { en: 'For the compliance team inside a bank, insurer or capital market firm.', ar: 'لفريق الالتزام داخل بنك أو شركة تأمين أو مؤسسة سوق مالية.' },
+  'portal.admin': { en: 'Taameem console', ar: 'كونسول تعميم' },
+  'portal.admin.desc': { en: 'For our own team: regulatory sources, extraction quality and client health.', ar: 'لفريقنا: مصادر الأنظمة وجودة الاستخراج وحالة العملاء.' },
+  'portal.enter': { en: 'Enter', ar: 'دخول' },
+  'portal.signedInAs': { en: 'Signed in as', ar: 'مسجل الدخول باسم' },
+
+  // nav
+  'nav.dashboard': { en: 'Dashboard', ar: 'لوحة المؤشرات' },
+  'nav.announcements': { en: 'Announcements', ar: 'التعاميم' },
+  'nav.obligations': { en: 'Obligations', ar: 'الالتزامات' },
+  'nav.tasks': { en: 'Tasks', ar: 'المهام' },
+  'nav.evidence': { en: 'Evidence vault', ar: 'خزانة الأدلة' },
+  'nav.policies': { en: 'Policy library', ar: 'مكتبة السياسات' },
+  'nav.translate': { en: 'Translate', ar: 'الترجمة' },
+  'nav.inspection': { en: 'Self-inspection', ar: 'التفتيش الذاتي' },
+  'nav.org': { en: 'People & systems', ar: 'الموظفون والأنظمة' },
+  'nav.sources': { en: 'Regulatory sources', ar: 'المصادر الرقابية' },
+  'nav.extraction': { en: 'Extraction quality', ar: 'جودة الاستخراج' },
+  'nav.clients': { en: 'Clients', ar: 'العملاء' },
+  'nav.settings': { en: 'Settings', ar: 'الإعدادات' },
+  'nav.flow': { en: 'The journey', ar: 'المسار' },
+  'nav.report': { en: 'Final report', ar: 'التقرير النهائي' },
+  'nav.group.work': { en: 'Daily work', ar: 'العمل اليومي' },
+  'nav.group.journey': { en: 'The seven steps', ar: 'الخطوات السبع' },
+  'nav.group.library': { en: 'What the AI knows', ar: 'ما يعرفه النظام' },
+  'nav.group.readiness': { en: 'Readiness', ar: 'الجاهزية' },
+
+  // the journey
+  'flow.title': { en: 'From a new rule to proof it was done', ar: 'من قاعدة جديدة إلى إثبات تنفيذها' },
+  'flow.subtitle': { en: 'Seven steps. You are on step', ar: 'سبع خطوات. أنت في الخطوة' },
+  'flow.of': { en: 'of', ar: 'من' },
+  'flow.start': { en: 'Start here', ar: 'ابدأ من هنا' },
+  'flow.open': { en: 'Open this step', ar: 'افتح هذه الخطوة' },
+  'flow.done': { en: 'Done', ar: 'تم' },
+  'flow.waiting': { en: 'Waiting', ar: 'بالانتظار' },
+  'flow.now': { en: 'You are here', ar: 'أنت هنا' },
+  'flow.restart': { en: 'Start the scenario again', ar: 'ابدأ السيناريو من جديد' },
+  'flow.restartHint': { en: 'Clears every decision you made and puts the letter back in the inbox.', ar: 'يمسح كل قرار اتخذته ويعيد التعميم إلى الصندوق.' },
+  'flow.setup': { en: 'Before it starts', ar: 'قبل أن يبدأ' },
+  'flow.setupWhat': { en: 'The library is how the AI knows your institution. Upload a policy and watch it get read.', ar: 'المكتبة هي ما يعرف به النظام منشأتكم. ارفع سياسة وشاهدها تُقرأ.' },
+
+  // arrival
+  'arr.title': { en: 'How the letter reaches you', ar: 'كيف يصلكم التعميم' },
+  'arr.auto': { en: 'It arrived on its own', ar: 'وصل التعميم تلقائياً' },
+  'arr.autoWhat': {
+    en: 'We watch the regulators every morning. This one landed in your inbox at 06:00, before anyone opened their email.',
+    ar: 'نراقب الجهات الرقابية كل صباح. وصل هذا إلى صندوقكم الساعة 6:00، قبل أن يفتح أحد بريده.',
+  },
+  'arr.watching': { en: 'sources watched · last check', ar: 'مصادر مراقبة · آخر فحص' },
+  'arr.manual': { en: 'Attach a letter', ar: 'ارفق تعميم' },
+  'arr.manualWhat': {
+    en: 'For a letter addressed to you alone, which the regulator never publishes.',
+    ar: 'للخطاب الموجّه لكم وحدكم والذي لا تنشره الجهة الرقابية.',
+  },
+  'arr.openAuto': { en: 'Open it', ar: 'افتح التعميم' },
+  'arr.uploadNow': { en: 'Attach a letter', ar: 'إرفاق تعميم' },
+  'arr.inbox': { en: 'In the inbox', ar: 'في الصندوق' },
+  'arr.justNow': { en: 'just arrived', ar: 'وصل للتو' },
+
+  // upload, honestly
+  'up.pick': { en: 'Choose the file', ar: 'اختر الملف' },
+  'up.reading': { en: 'Reading it', ar: 'جارٍ قراءته' },
+  'up.added': { en: 'Added', ar: 'أُضيف' },
+  'up.addedTo': { en: 'It is in the library now.', ar: 'صار في المكتبة الآن.' },
+  'up.realNote': { en: 'Everything below is measured from the file you picked. Nothing is assumed.', ar: 'كل ما يظهر أدناه مقيس من الملف الذي اخترته. لا شيء مفترض.' },
+  'up.stays': { en: 'The original file never leaves the institution. Only the index is stored.', ar: 'الملف الأصلي لا يغادر المنشأة. يُخزَّن الفهرس فقط.' },
+  'up.again': { en: 'Upload another', ar: 'ارفع ملفاً آخر' },
+
+  // what the employee receives
+  'task.instructions': { en: 'What to do, in order', ar: 'ما يجب عمله، بالترتيب' },
+  'task.received': { en: 'What reached the assignee', ar: 'ما وصل إلى المسؤول' },
+  'task.why': { en: 'Why this landed on you', ar: 'لماذا وصلتك هذه المهمة' },
+  'task.handBack': { en: 'Hand back', ar: 'المطلوب تسليمه' },
+  'task.markDone': { en: 'Mark done', ar: 'وضع كمنجزة' },
+  'task.notify': { en: 'Sent to', ar: 'أُرسلت إلى' },
+
+  // the final report
+  'rep.pageTitle': { en: 'The report that goes to the regulator', ar: 'التقرير الذي يذهب للجهة الرقابية' },
+  'rep.pageSub': { en: 'Built from the decisions and the proof, not typed by hand.', ar: 'مبني من القرارات والأدلة، لا مكتوب باليد.' },
+  'rep.copy': { en: 'Copy the whole report', ar: 'نسخ التقرير كاملاً' },
+  'rep.copied': { en: 'Copied', ar: 'تم النسخ' },
+  'rep.download': { en: 'Download the report', ar: 'تحميل التقرير' },
+  'rep.downloadEvidence': { en: 'Download the evidence list', ar: 'تحميل قائمة الأدلة' },
+  'rep.notReady': { en: 'Finish the earlier steps and the report fills itself in.', ar: 'أنهِ الخطوات السابقة ويكتمل التقرير من نفسه.' },
+  'rep.ready': { en: 'Ready to send', ar: 'جاهز للإرسال' },
+  'rep.preview': { en: 'The report', ar: 'التقرير' },
+  'rep.attachments': { en: 'Attached files', ar: 'الملفات المرفقة' },
+  'rep.requestApproval': { en: 'Submit for approval', ar: 'رفع للاعتماد' },
+  'rep.requested': { en: 'Submitted for approval', ar: 'مرفوع للاعتماد' },
+  'rep.awaiting': { en: 'Waiting on', ar: 'بانتظار' },
+  'rep.cannotSend': {
+    en: 'Your role prepares the report. Only the Chief Compliance Officer may send it.',
+    ar: 'دورك يجهّز التقرير. والإرسال لرئيس إدارة الالتزام وحده.',
+  },
+  'rep.pendingApproval': { en: 'It is on their desk now.', ar: 'صار على مكتبه الآن.' },
+  'rep.closed': { en: 'The case is closed', ar: 'أُغلقت الدورة' },
+  'rep.closedWhat': {
+    en: 'The report was sent and the letter is filed as reported. Nothing here can change now.',
+    ar: 'أُرسل التقرير وأصبح التعميم مُبلَّغاً عنه. ولا شيء هنا قابل للتغيير بعد الآن.',
+  },
+  'rep.sentBy': { en: 'Sent by', ar: 'أرسله' },
+  'rep.locked': { en: 'Locked', ar: 'مقفل' },
+
+  // the journey, finished
+  'flow.complete': { en: 'The seven steps are done', ar: 'اكتملت الخطوات السبع' },
+  'flow.completeWhat': {
+    en: 'A regulator letter became approved change, and the proof behind it is sealed and filed.',
+    ar: 'تحوّل تعميم رقابي إلى تغيير معتمد، والدليل خلفه مختوم ومحفوظ.',
+  },
+  'flow.seeReport': { en: 'Open the report', ar: 'افتح التقرير' },
+
+  // turning a finding into work
+  'fix.start': { en: 'Fix it', ar: 'أصلحها' },
+  'fix.title': { en: 'Turn this finding into a task', ar: 'حوّل هذه الملاحظة إلى مهمة' },
+  'fix.what': {
+    en: 'It becomes a real task on the board: a named owner, a deadline taken from the finding, numbered instructions, and the proof the inspector would ask for.',
+    ar: 'تصبح مهمة حقيقية على اللوحة: مسؤول بالاسم، وموعد مأخوذ من الملاحظة، وتعليمات مرقّمة، والدليل الذي سيطلبه المفتش.',
+  },
+  'fix.owner': { en: 'It goes to', ar: 'تذهب إلى' },
+  'fix.due': { en: 'Due', ar: 'الموعد' },
+  'fix.proof': { en: 'What comes back', ar: 'ما يعود منها' },
+  'fix.raise': { en: 'Raise the task', ar: 'أنشئ المهمة' },
+  'fix.raised': { en: 'Task raised', ar: 'أُنشئت المهمة' },
+  'fix.open': { en: 'Open it on the board', ar: 'افتحها في اللوحة' },
+  'fix.done': { en: 'Closed', ar: 'مغلقة' },
+  'fix.all': { en: 'Fix every finding', ar: 'أصلح كل الملاحظات' },
+  'fix.fromInspection': { en: 'From the self-inspection', ar: 'من التفتيش الذاتي' },
+
+  // common
+  'common.search': { en: 'Search', ar: 'بحث' },
+  'common.all': { en: 'All', ar: 'الكل' },
+  'common.open': { en: 'Open', ar: 'فتح' },
+  'common.close': { en: 'Close', ar: 'إغلاق' },
+  'common.back': { en: 'Back', ar: 'رجوع' },
+  'common.next': { en: 'Next', ar: 'التالي' },
+  'common.cancel': { en: 'Cancel', ar: 'إلغاء' },
+  'common.confirm': { en: 'Confirm', ar: 'تأكيد' },
+  'common.approve': { en: 'Approve', ar: 'اعتماد' },
+  'common.reject': { en: 'Reject', ar: 'رفض' },
+  'common.send': { en: 'Send', ar: 'إرسال' },
+  'common.upload': { en: 'Upload', ar: 'رفع' },
+  'common.download': { en: 'Download', ar: 'تنزيل' },
+  'common.view': { en: 'View', ar: 'عرض' },
+  'common.owner': { en: 'Owner', ar: 'المسؤول' },
+  'common.due': { en: 'Due', ar: 'الموعد' },
+  'common.status': { en: 'Status', ar: 'الحالة' },
+  'common.department': { en: 'Department', ar: 'الإدارة' },
+  'common.source': { en: 'Source', ar: 'المصدر' },
+  'common.confidence': { en: 'Confidence', ar: 'درجة الثقة' },
+  'common.none': { en: 'None', ar: 'لا يوجد' },
+  'common.showMore': { en: 'Show more', ar: 'عرض المزيد' },
+  'common.showLess': { en: 'Show less', ar: 'عرض أقل' },
+  'common.ofTotal': { en: 'of', ar: 'من' },
+  'common.noResults': { en: 'Nothing matches that search.', ar: 'لا نتائج مطابقة لهذا البحث.' },
+  'common.theme': { en: 'Theme', ar: 'المظهر' },
+  'common.language': { en: 'Language', ar: 'اللغة' },
+  'common.light': { en: 'Light', ar: 'فاتح' },
+  'common.dark': { en: 'Dark', ar: 'داكن' },
+  'common.system': { en: 'System', ar: 'النظام' },
+
+  // gaps and severity
+  'gap.none': { en: 'Aligned', ar: 'متوافق' },
+  'gap.low': { en: 'Minor gap', ar: 'فجوة بسيطة' },
+  'gap.medium': { en: 'Gap', ar: 'فجوة' },
+  'gap.high': { en: 'Serious gap', ar: 'فجوة جوهرية' },
+
+  // obligation status
+  'obs.extracted': { en: 'Awaiting review', ar: 'بانتظار المراجعة' },
+  'obs.confirmed': { en: 'Confirmed', ar: 'مؤكد' },
+  'obs.rejected': { en: 'Rejected', ar: 'مرفوض' },
+  'obs.in_progress': { en: 'In progress', ar: 'قيد التنفيذ' },
+  'obs.closed': { en: 'Closed', ar: 'مغلق' },
+
+  // task status
+  'task.draft': { en: 'Draft', ar: 'مسودة' },
+  'task.sent': { en: 'Sent', ar: 'مُرسلة' },
+  'task.in_progress': { en: 'In progress', ar: 'قيد التنفيذ' },
+  'task.done': { en: 'Done', ar: 'منجزة' },
+  'task.overdue': { en: 'Overdue', ar: 'متأخرة' },
+
+  // announcement status
+  'ann.new': { en: 'New', ar: 'جديد' },
+  'ann.reading': { en: 'Being read', ar: 'قيد القراءة' },
+  'ann.review': { en: 'Awaiting review', ar: 'بانتظار المراجعة' },
+  'ann.mapped': { en: 'Mapped', ar: 'مرتبط' },
+  'ann.in_progress': { en: 'In progress', ar: 'قيد التنفيذ' },
+  'ann.reported': { en: 'Reported', ar: 'مُبلَّغ عنه' },
+  'ann.archived': { en: 'Archived', ar: 'مؤرشف' },
+
+  // modality
+  'mod.must': { en: 'must', ar: 'يجب' },
+  'mod.must_not': { en: 'must not', ar: 'يحظر' },
+  'mod.should': { en: 'should', ar: 'ينبغي' },
+
+  // dashboard
+  'dash.title': { en: 'Compliance posture', ar: 'وضع الالتزام' },
+  'dash.subtitle': { en: 'Every figure below traces to a source rule and a named owner.', ar: 'كل رقم أدناه يعود إلى نص نظامي ومسؤول محدد بالاسم.' },
+  'dash.newAnnouncement': { en: 'New announcement received', ar: 'تعميم جديد وارد' },
+  'dash.reviewExtraction': { en: 'Review extraction', ar: 'مراجعة الاستخراج' },
+  'dash.readiness': { en: 'Readiness', ar: 'الجاهزية' },
+  'dash.obligations': { en: 'Obligations', ar: 'الالتزامات' },
+  'dash.deadlines': { en: 'Deadlines, next 30 days', ar: 'المواعيد خلال 30 يوماً' },
+  'dash.awaitingReview': { en: 'Awaiting your review', ar: 'بانتظار مراجعتك' },
+  'dash.byRegulator': { en: 'Obligations by regulator', ar: 'الالتزامات حسب الجهة' },
+  'dash.riskHeatmap': { en: 'Gap heatmap', ar: 'خريطة الفجوات' },
+  'dash.upcoming': { en: 'Upcoming deadlines', ar: 'المواعيد القادمة' },
+  'dash.compliant': { en: 'aligned', ar: 'متوافق' },
+  'dash.gaps': { en: 'gaps', ar: 'فجوات' },
+  'dash.inProgress': { en: 'in progress', ar: 'قيد التنفيذ' },
+
+  // the seven steps
+  'step.1': { en: 'Announcement arrives', ar: 'وصول التعميم' },
+  'step.2': { en: 'The AI reads it', ar: 'الذكاء الاصطناعي يقرأه' },
+  'step.3': { en: 'A person approves', ar: 'شخص يعتمده' },
+  'step.4': { en: 'What must change', ar: 'ما الذي يجب تغييره' },
+  'step.5': { en: 'Tasks per team', ar: 'مهمة لكل إدارة' },
+  'step.6': { en: 'Proof collected', ar: 'جمع الإثبات' },
+  'step.7': { en: 'Sent to the regulator', ar: 'الإرسال للجهة الرقابية' },
+
+  // AI runner
+  'ai.title': { en: 'Taameem AI', ar: 'ذكاء تعميم' },
+  'ai.reading': { en: 'Reading the announcement', ar: 'قراءة التعميم' },
+  'ai.searching': { en: 'Searching official sources', ar: 'البحث في المصادر الرسمية' },
+  'ai.matching': { en: 'Matching against your policies', ar: 'المطابقة مع سياساتكم' },
+  'ai.drafting': { en: 'Drafting what must change', ar: 'صياغة ما يجب تغييره' },
+  'ai.done': { en: 'Done', ar: 'اكتمل' },
+  'ai.humanApproves': { en: 'Nothing enters the register until a person approves it.', ar: 'لا يدخل السجل شيء حتى يعتمده شخص.' },
+  'ai.stop': { en: 'Stop', ar: 'إيقاف' },
+  'ai.run': { en: 'Run', ar: 'تشغيل' },
+
+  // policies
+  'pol.library': { en: 'Policy library', ar: 'مكتبة السياسات' },
+  'pol.librarySub': { en: 'What the AI compares every new rule against.', ar: 'ما يقارن به الذكاء الاصطناعي كل قاعدة جديدة.' },
+  'pol.clauses': { en: 'clauses', ar: 'بنداً' },
+  'pol.version': { en: 'Version', ar: 'الإصدار' },
+  'pol.effective': { en: 'Effective', ar: 'ساري من' },
+  'pol.nextReview': { en: 'Next review', ar: 'المراجعة القادمة' },
+  'pol.approvedBy': { en: 'Approved by', ar: 'معتمدة من' },
+  'pol.upload': { en: 'Upload a policy', ar: 'رفع سياسة' },
+  'pol.uploadHint': { en: 'PDF, Word or text. The AI reads it, splits it into clauses and indexes it.', ar: 'PDF أو وورد أو نص. يقرأها الذكاء الاصطناعي ويقسمها إلى بنود ويفهرسها.' },
+
+  // translate
+  'tr.title': { en: 'Translate a document', ar: 'ترجمة مستند' },
+  'tr.subtitle': { en: 'Arabic to English or the reverse, clause by clause, with the original kept side by side.', ar: 'من العربية إلى الإنجليزية أو العكس، بنداً ببند، مع بقاء الأصل جنباً إلى جنب.' },
+  'tr.source': { en: 'Source', ar: 'المصدر' },
+  'tr.target': { en: 'Translation', ar: 'الترجمة' },
+  'tr.swap': { en: 'Swap direction', ar: 'عكس الاتجاه' },
+  'tr.translate': { en: 'Translate', ar: 'ترجم' },
+  'tr.pickPolicy': { en: 'Pick a policy, or paste your own text', ar: 'اختر سياسة، أو الصق نصك' },
+  'tr.legalNote': { en: 'Legal review is still required before a translated policy is issued.', ar: 'تبقى المراجعة القانونية مطلوبة قبل إصدار أي سياسة مترجمة.' },
+
+  // inspection
+  'insp.title': { en: 'Inspect yourself before the inspector does', ar: 'افحص نفسك قبل أن يفحصك المفتش' },
+  'insp.subtitle': { en: 'One click checks every rule of SAMA, CMA and the Insurance Authority against your own policies and proof.', ar: 'ضغطة واحدة تفحص كل أحكام ساما والهيئة وهيئة التأمين على سياساتكم وأدلتكم.' },
+  'insp.run': { en: 'Inspect us now', ar: 'افحصنا الآن' },
+  'insp.running': { en: 'Inspecting…', ar: 'جارٍ الفحص…' },
+  'insp.done': { en: 'Inspection done', ar: 'اكتمل الفحص' },
+  'insp.checked': { en: 'Checked against your institution', ar: 'ما فُحص مقابل منشأتكم' },
+  'insp.wouldFind': { en: 'What an inspector would find', ar: 'ما سيجده المفتش' },
+  'insp.wouldAsk': { en: 'Inspector asks', ar: 'سيسأل المفتش' },
+  'insp.fixWithin': { en: 'fix within', ar: 'الإصلاح خلال' },
+  'insp.days': { en: 'days', ar: 'يوماً' },
+  'insp.exposure': { en: 'Exposure today', ar: 'التعرض اليوم' },
+  'insp.estimate': { en: 'estimate · published penalty ranges', ar: 'تقدير · نطاقات الغرامات المنشورة' },
+  'insp.fixAll': { en: 'Fix these findings and the exposure is zero.', ar: 'أصلح هذه الملاحظات ويصبح التعرض صفراً.' },
+  'insp.pack': { en: 'Build the inspection pack', ar: 'جهّز ملف التفتيش' },
+
+  // evidence
+  'ev.sealed': { en: 'Sealed with a digital fingerprint', ar: 'مختوم ببصمة رقمية' },
+  'ev.verified': { en: 'fingerprint matches · not altered', ar: 'البصمة مطابقة · لم يُعدّل' },
+  'ev.uploadedBy': { en: 'Uploaded by', ar: 'رفعه' },
+
+  // report
+  'rep.title': { en: 'Implementation report', ar: 'تقرير التنفيذ' },
+  'rep.to': { en: 'To', ar: 'إلى' },
+  'rep.subject': { en: 'Subject', ar: 'الموضوع' },
+  'rep.approveSend': { en: 'Approve & send', ar: 'اعتماد وإرسال' },
+  'rep.sent': { en: 'Sent', ar: 'أُرسل' },
+  'rep.aiDrafted': { en: 'AI drafted', ar: 'صاغه الذكاء الاصطناعي' },
+  'rep.nothingAuto': { en: 'Nothing is sent by the AI. A person reads, approves, sends.', ar: 'لا يرسل الذكاء الاصطناعي شيئاً. شخص يقرأ ويعتمد ويرسل.' },
+
+  // sign in
+  'si.pickInstitution': { en: 'Pick your institution', ar: 'اختر منشأتك' },
+  'si.pickPerson': { en: 'Sign in as', ar: 'سجّل الدخول باسم' },
+  'si.pickPersonHint': { en: 'Each person sees only what their role allows.', ar: 'كل شخص يرى ما يسمح به دوره فقط.' },
+  'si.separate': { en: 'Separate accounts. A bank never sees an insurer’s data.', ar: 'حسابات منفصلة. لا يرى البنك بيانات شركة التأمين.' },
+  'si.enterWorkspace': { en: 'Enter workspace', ar: 'دخول مساحة العمل' },
+  'si.changeInstitution': { en: 'Change institution', ar: 'تغيير المنشأة' },
+  'si.ourTeam': { en: 'Taameem team', ar: 'فريق تعميم' },
+  'si.signOut': { en: 'Sign out', ar: 'تسجيل الخروج' },
+  'si.switchUser': { en: 'Switch user', ar: 'تبديل المستخدم' },
+  'si.signedInAs': { en: 'Signed in as', ar: 'المستخدم الحالي' },
+
+  // roles and permissions
+  'role.title': { en: 'Role', ar: 'الدور' },
+  'role.permissions': { en: 'What this role may do', ar: 'ما يسمح به هذا الدور' },
+  'role.cco': { en: 'Chief Compliance Officer', ar: 'رئيس إدارة الالتزام' },
+  'role.manager': { en: 'Compliance Manager', ar: 'مدير الالتزام' },
+  'role.officer': { en: 'Compliance Officer', ar: 'أخصائي التزام' },
+  'role.dept_head': { en: 'Department Head', ar: 'رئيس إدارة' },
+  'role.auditor': { en: 'Internal Auditor', ar: 'مراجع داخلي' },
+  'role.platform': { en: 'Taameem Platform Admin', ar: 'مشرف منصة تعميم' },
+  'perm.reviewObligations': { en: 'Review obligations', ar: 'مراجعة الالتزامات' },
+  'perm.approveObligations': { en: 'Approve obligations', ar: 'اعتماد الالتزامات' },
+  'perm.assignTasks': { en: 'Assign tasks', ar: 'توزيع المهام' },
+  'perm.uploadEvidence': { en: 'Upload evidence', ar: 'رفع الأدلة' },
+  'perm.sendToRegulator': { en: 'Send to the regulator', ar: 'الإرسال للجهة الرقابية' },
+  'perm.runInspection': { en: 'Run the self-inspection', ar: 'تشغيل التفتيش الذاتي' },
+  'perm.editPolicies': { en: 'Edit the policy library', ar: 'تعديل مكتبة السياسات' },
+  'perm.denied': { en: 'Your role cannot do this.', ar: 'دورك لا يسمح بهذا الإجراء.' },
+  'perm.deniedWho': { en: 'Ask the Chief Compliance Officer.', ar: 'الرجوع إلى رئيس إدارة الالتزام.' },
+  'perm.deptOnly': { en: 'You are seeing your own department only.', ar: 'تشاهد إدارتك فقط.' },
+
+  // organisation
+  'org.people': { en: 'People', ar: 'الموظفون' },
+  'org.departments': { en: 'Departments', ar: 'الإدارات' },
+  'org.systems': { en: 'Systems', ar: 'الأنظمة' },
+  'org.head': { en: 'Head', ar: 'الرئيس' },
+  'org.headcount': { en: 'Headcount', ar: 'عدد الموظفين' },
+  'org.joined': { en: 'Joined', ar: 'تاريخ الالتحاق' },
+  'org.email': { en: 'Email', ar: 'البريد' },
+  'org.phone': { en: 'Phone', ar: 'الجوال' },
+  'org.approver': { en: 'Can sign off', ar: 'يملك صلاحية الاعتماد' },
+  'org.openTasks': { en: 'Open tasks', ar: 'مهام مفتوحة' },
+  'org.vendor': { en: 'Vendor', ar: 'المورد' },
+  'org.hosting': { en: 'Hosting', ar: 'الاستضافة' },
+  'org.criticality': { en: 'Criticality', ar: 'الأهمية' },
+  'org.personalData': { en: 'Holds personal data', ar: 'يحتوي بيانات شخصية' },
+  'org.rulesLanding': { en: 'Rules landing here', ar: 'قواعد تقع على هذا النظام' },
+  'org.viewProfile': { en: 'View profile', ar: 'عرض الملف' },
+
+  // institution profile
+  'inst.licence': { en: 'Licence', ar: 'الترخيص' },
+  'inst.regulators': { en: 'Regulators', ar: 'الجهات الرقابية' },
+  'inst.city': { en: 'City', ar: 'المدينة' },
+  'inst.staff': { en: 'Staff', ar: 'عدد الموظفين' },
+  'inst.founded': { en: 'Founded', ar: 'سنة التأسيس' },
+  'inst.network': { en: 'Network', ar: 'الشبكة' },
+  'inst.activity': { en: 'Activity', ar: 'النشاط' },
+  'inst.sector': { en: 'Sector', ar: 'القطاع' },
+} as const satisfies Record<string, Bi>;
+
+export type DictKey = keyof typeof DICT;

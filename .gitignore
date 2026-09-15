@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+*.log
+.env*.local
+scripts/_data.generated.mjs

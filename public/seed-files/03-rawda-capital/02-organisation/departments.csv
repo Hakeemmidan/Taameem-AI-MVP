@@ -1,0 +1,15 @@
+department_id,name_en,name_ar,head_employee_id,head_name_en,head_name_ar,headcount
+compliance,Compliance & AML,الالتزام ومكافحة غسل الأموال,E-401,Maha Abdulaziz Al-Tuwaijri,مها عبدالعزيز التويجري,6
+dealing,Dealing & Brokerage,التعامل والوساطة,E-410,Abdullah Mansour Al-Rashoud,عبدالله منصور الرشود,34
+assetmgmt,Asset Management,إدارة الأصول,E-420,Ziyad Abdulrahman Al-Hoshan,زياد عبدالرحمن الحوشان,22
+research,Research & Advisory,البحوث والمشورة,E-430,Faris Hamad Al-Dakheel,فارس حمد الدخيل,11
+custody,Custody,الحفظ,E-440,Lulwah Fahad Al-Rasheed,لولوة فهد الرشيد,9
+operations,Operations & Settlement,العمليات والتسوية,E-450,Tariq Saleh Al-Jarallah,طارق صالح الجارالله,26
+legal,Legal Affairs,الشؤون القانونية,E-460,Areej Nasser Al-Qadi,أريج ناصر القاضي,4
+it,Information Technology,تقنية المعلومات,E-470,Majed Bandar Al-Waleed,ماجد بندر الوليد,19
+risk,Risk Management,إدارة المخاطر,E-480,Hessa Omar Al-Sanea,حصة عمر الصانع,5
+audit,Internal Audit,المراجعة الداخلية,E-485,Khalid Saud Al-Meshal,خالد سعود المشعل,3
+infosec,Information Security,أمن المعلومات,E-490,Dania Raed Al-Harthi,دانية رائد الحارثي,7
+privacy,Data & Privacy,البيانات والخصوصية,E-495,Omar Faisal Al-Buraik,عمر فيصل البريك,2
+finance,Finance,الإدارة المالية,E-500,Sultana Adel Al-Onaizan,سلطانة عادل العنيزان,8
+hr,Human Resources,الموارد البشرية,E-510,Bader Nayef Al-Suwaidan,بدر نايف السويدان,4
