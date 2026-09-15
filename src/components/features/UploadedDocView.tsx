@@ -17,7 +17,11 @@ export function UploadedDocView({ doc, onClose }: { doc: UploadedDoc | null; onC
   const { lang, isRtl } = useLang();
   if (!doc) return null;
 
-  const pct = Math.round(doc.arabic * 100);
+  // a document kept from an earlier build may be missing the newer fields
+  const paragraphs = doc.paragraphs ?? [];
+  const tags = doc.tags ?? [];
+  const regulators = doc.regulators ?? [];
+  const pct = Math.round((doc.arabic ?? 0) * 100);
 
   return (
     <Drawer
@@ -97,7 +101,7 @@ export function UploadedDocView({ doc, onClose }: { doc: UploadedDoc | null; onC
             </div>
 
             {/* the header, when the file carries one */}
-            {doc.code || doc.version || doc.owner || doc.effective || doc.regulators.length ? (
+            {doc.code || doc.version || doc.owner || doc.effective || regulators.length ? (
               <>
                 <SectionLabel className="mt-6">{isRtl ? 'قُرئ من ترويسة الملف' : 'Read from the file header'}</SectionLabel>
                 <div className="divide-y divide-border border-y border-border">
@@ -117,21 +121,21 @@ export function UploadedDocView({ doc, onClose }: { doc: UploadedDoc | null; onC
                       <span className="font-mono text-[12px]">{doc.effective}</span>
                     </Row>
                   ) : null}
-                  {doc.regulators.length ? (
-                    <Row label={isRtl ? 'الجهات' : 'Regulators'}>{doc.regulators.join('، ')}</Row>
+                  {regulators.length ? (
+                    <Row label={isRtl ? 'الجهات' : 'Regulators'}>{regulators.join('، ')}</Row>
                   ) : null}
                 </div>
               </>
             ) : null}
 
             {/* the parts themselves */}
-            {doc.paragraphs.length > 0 ? (
+            {paragraphs.length > 0 ? (
               <>
                 <SectionLabel className="mt-6">
-                  {isRtl ? `الأجزاء التي استُخرجت · ${doc.paragraphs.length}` : `The parts pulled out · ${doc.paragraphs.length}`}
+                  {isRtl ? `الأجزاء التي استُخرجت · ${paragraphs.length}` : `The parts pulled out · ${paragraphs.length}`}
                 </SectionLabel>
                 <ul className="flex flex-col gap-2">
-                  {doc.paragraphs.map((p, i) => (
+                  {paragraphs.map((p, i) => (
                     <li
                       key={`${p.ref}-${i}`}
                       className="animate-fade-up rounded-lg border border-border bg-surface p-3.5"
@@ -179,13 +183,13 @@ export function UploadedDocView({ doc, onClose }: { doc: UploadedDoc | null; onC
             )}
 
             {/* the index */}
-            {doc.tags.length > 0 ? (
+            {tags.length > 0 ? (
               <>
                 <SectionLabel className="mt-6">
-                  {isRtl ? `وسوم الفهرسة · ${doc.tags.length}` : `Index tags · ${doc.tags.length}`}
+                  {isRtl ? `وسوم الفهرسة · ${tags.length}` : `Index tags · ${tags.length}`}
                 </SectionLabel>
                 <div className="flex flex-wrap gap-1.5">
-                  {doc.tags.map((tag) => (
+                  {tags.map((tag) => (
                     <span key={tag} className="rounded bg-bg-soft px-2 py-0.5 font-mono text-[10.5px] text-fg-muted">
                       {tag}
                     </span>

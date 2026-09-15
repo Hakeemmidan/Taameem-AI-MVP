@@ -33,6 +33,7 @@ Then open `http://localhost:3100`.
 | `npm run check` | Both, which is what runs before every deploy |
 | `npm run seed` | Generates the seed files in `public/seed-files` |
 | `npm run package` | Assembles a complete hand-over folder for a demo |
+| `npm run walk` | Walks the seven steps in a real browser and fails if any of them does not work |
 
 There is no sign-in. The workspace opens directly as **Sarah Abdullah
 Al-Rashid**, Chief Compliance Officer at Innovation Bank.
@@ -183,6 +184,13 @@ src/
 - An employee's Arabic name is not first, father and family
 
 It runs in CI before every deploy.
+
+`npm run walk` drives a real browser through the seven steps from an empty
+workspace: it opens the letter, runs the read, approves the obligations, sends
+the tasks to the departments, completes them, uploads evidence and checks the
+fingerprint was sealed, sends the report, then turns an inspection finding into
+a task and confirms it reaches the board. Sixteen checks, and any step that does
+not work fails the command.
 
 ---
 

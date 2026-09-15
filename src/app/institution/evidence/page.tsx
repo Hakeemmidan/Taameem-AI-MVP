@@ -28,7 +28,8 @@ export default function EvidencePage() {
   const Arrow = isRtl ? ArrowLeft : ArrowRight;
 
   const evidence = ws.allEvidence;
-  const TASKS = ws.allTasks;
+  // only work that has left Compliance can have proof handed back against it
+  const TASKS = ws.allTasks.filter((x) => (ws.taskStatus[x.id] ?? x.status) !== 'draft');
   const confirmed = scopeObligations(tenant.id, role, user).filter((o) => ws.obligationStatus[o.id] === 'confirmed');
 
   /** default to the first task still missing its proof */

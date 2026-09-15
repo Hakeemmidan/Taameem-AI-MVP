@@ -12,7 +12,8 @@
     "seed": "node scripts/make-seed-files.mjs",
     "check": "npm run typecheck && npm run verify",
     "serve": "node scripts/serve.mjs",
-    "package": "node scripts/make-package.mjs"
+    "package": "node scripts/make-package.mjs",
+    "walk": "node scripts/walk.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

@@ -139,6 +139,17 @@ export const DICT = {
   'fix.all': { en: 'Fix every finding', ar: 'أصلح كل الملاحظات' },
   'fix.fromInspection': { en: 'From the self-inspection', ar: 'من التفتيش الذاتي' },
 
+  // sending the work out
+  'send.title': { en: 'Not sent yet', ar: 'لم تُرسل بعد' },
+  'send.action': { en: 'Send to the departments', ar: 'أرسلها للإدارات' },
+  'send.ready': { en: 'ready to go out', ar: 'جاهزة للإرسال' },
+  'send.blocked': { en: 'Approve the obligations first and the tasks become sendable.', ar: 'اعتمد الالتزامات أولاً فتصبح المهام قابلة للإرسال.' },
+  'send.blockedGo': { en: 'Go to the obligations', ar: 'اذهب إلى الالتزامات' },
+  'send.none': { en: 'Nothing here yet.', ar: 'لا شيء هنا بعد.' },
+  'send.waiting': { en: 'These are drafted and waiting on your approval of the rule behind them.', ar: 'هذه مُعدّة وتنتظر اعتمادك للقاعدة التي خلفها.' },
+  'send.sentNow': { en: 'sent to the departments', ar: 'أُرسلت للإدارات' },
+  'send.startHere': { en: 'Start the work', ar: 'ابدأ العمل' },
+
   // common
   'common.search': { en: 'Search', ar: 'بحث' },
   'common.all': { en: 'All', ar: 'الكل' },

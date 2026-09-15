@@ -36,7 +36,9 @@ export function useProgress() {
   });
   const confirmed = obligations.filter((o) => (ws.obligationStatus[o.id] ?? o.status) === 'confirmed');
   const withGap = obligations.filter((o) => worstGap(o) !== 'none');
-  const tasksDone = tasks.filter((x) => (ws.taskStatus[x.id] ?? x.status) === 'done');
+  const status = (id: string, fallback: string) => ws.taskStatus[id] ?? fallback;
+  const tasksSent = tasks.filter((x) => status(x.id, x.status) !== 'draft');
+  const tasksDone = tasks.filter((x) => status(x.id, x.status) === 'done');
   const tasksWithProof = tasks.filter((x) => ws.allEvidence.some((e) => e.taskId === x.id));
 
   const read = (ws.announcementStatus[liveId] ?? 'new') !== 'new';
@@ -52,7 +54,8 @@ export function useProgress() {
     read: { done: closed || read, at: read ? 1 : 0, of: 1 },
     approve: { done: closed || (read && decided.length === obligations.length), at: decided.length, of: obligations.length },
     change: { done: closed || confirmed.length > 0, at: confirmed.length, of: withGap.length },
-    assign: { done: closed || (tasks.length > 0 && tasksDone.length === tasks.length), at: tasksDone.length, of: tasks.length },
+    // the work has left Compliance and is with the departments
+    assign: { done: closed || (tasks.length > 0 && tasksSent.length === tasks.length), at: tasksSent.length, of: tasks.length },
     // the departments have finished and handed something back
     prove: {
       done: closed || (tasks.length > 0 && tasksDone.length === tasks.length && ws.allEvidence.length > 0),

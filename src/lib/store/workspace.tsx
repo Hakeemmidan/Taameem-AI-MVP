@@ -24,7 +24,11 @@ export type UploadedDoc = ParsedDoc & {
  * in localStorage under a key that includes the institution, so a bank session
  * and an insurance session never overwrite each other.
  */
+/** bumped whenever the shape changes, so stale storage is dropped not merged */
+const STATE_VERSION = 3;
+
 interface WorkspaceState {
+  v: number;
   obligationStatus: Record<string, ObligationStatus>;
   confirmedBy: Record<string, { by: string; at: string }>;
   taskStatus: Record<string, TaskStatus>;
@@ -44,10 +48,16 @@ interface WorkspaceState {
   inspectionRunAt: string | null;
 }
 
+/**
+ * A fresh workspace has done nothing yet: every rule is awaiting review, no
+ * task has been sent to a department, and the evidence vault is empty. The
+ * seven steps then fill it in, which is the whole point of the journey.
+ */
 const seed = (): WorkspaceState => ({
-  obligationStatus: Object.fromEntries(OBLIGATIONS.map((o) => [o.id, o.status])),
+  v: STATE_VERSION,
+  obligationStatus: Object.fromEntries(OBLIGATIONS.map((o) => [o.id, 'extracted' as const])),
   confirmedBy: {},
-  taskStatus: Object.fromEntries(TASKS.map((t) => [t.id, t.status])),
+  taskStatus: Object.fromEntries(TASKS.map((t) => [t.id, 'draft' as const])),
   announcementStatus: Object.fromEntries(ANNOUNCEMENTS.map((a) => [a.id, a.status])),
   extraLibrary: [],
   extraLetters: [],
@@ -79,6 +89,8 @@ interface WorkspaceValue extends WorkspaceState {
   /** closes the case: the letter is marked reported and nothing else may change */
   sendReport: (announcementId: string) => void;
   requestApproval: () => void;
+  /** step five: the approved work leaves Compliance and reaches the teams */
+  dispatchTasks: (ids: string[]) => void;
   markInspected: () => void;
   reset: () => void;
   /** obligations in this institution still waiting for a human decision */
@@ -99,7 +111,8 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
     let next = seed();
     try {
       const raw = localStorage.getItem(storage);
-      if (raw) next = { ...next, ...(JSON.parse(raw) as WorkspaceState) };
+      const saved = raw ? (JSON.parse(raw) as WorkspaceState) : null;
+      if (saved && saved.v === STATE_VERSION) next = { ...next, ...saved };
     } catch {
       /* ignore a corrupt session */
     }
@@ -130,12 +143,15 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
     const myTaskIds = new Set(myTasks.map((x) => x.id));
     return {
       ...state,
-      allEvidence: [...evidenceOf(tenant.id), ...state.extraEvidence.filter((e) => e.tenantId === tenant.id)].filter(
-        (e) => !role.can.ownDepartmentOnly || myTaskIds.has(e.taskId),
-      ),
+      allEvidence: state.extraEvidence
+        .filter((e) => e.tenantId === tenant.id)
+        .filter((e) => !role.can.ownDepartmentOnly || myTaskIds.has(e.taskId)),
       allTasks: myTasks,
       pendingCount: mine.filter((o) => (state.obligationStatus[o.id] ?? o.status) === 'extracted').length,
-      openTaskCount: myTasks.filter((t) => (state.taskStatus[t.id] ?? t.status) !== 'done').length,
+      openTaskCount: myTasks.filter((t) => {
+        const st = state.taskStatus[t.id] ?? t.status;
+        return st !== 'draft' && st !== 'done';
+      }).length,
       confirmObligation: (id) =>
         persist({
           ...state,
@@ -168,6 +184,11 @@ export function WorkspaceProvider({ children }: { children: React.ReactNode }) {
           reportSentAt: new Date().toISOString(),
           reportSentBy: user.id,
           announcementStatus: { ...state.announcementStatus, [announcementId]: 'reported' },
+        }),
+      dispatchTasks: (ids) =>
+        persist({
+          ...state,
+          taskStatus: { ...state.taskStatus, ...Object.fromEntries(ids.map((i) => [i, 'sent' as const])) },
         }),
       requestApproval: () =>
         persist({ ...state, approvalRequestedAt: new Date().toISOString(), approvalRequestedBy: user.id }),

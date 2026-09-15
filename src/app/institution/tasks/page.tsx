@@ -1,23 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { CalendarClock, Check, CircleAlert, FileCheck2, Mail, Send } from 'lucide-react';
+import Link from 'next/link';
+import { CalendarClock, Check, CircleAlert, FileCheck2, Mail, Send, TriangleAlert } from 'lucide-react';
 import { DeptChip, PageHeader, PersonChip, SectionLabel, SourceQuote } from '@/components/features/atoms';
 import { FlowBar, NextStep } from '@/components/features/Flow';
 import { Badge, Button, Card, CardBody, Empty, Stat } from '@/components/ui/primitives';
 import { Drawer } from '@/components/ui/overlay';
 import { useLang } from '@/lib/i18n/context';
 import { useWorkspace } from '@/lib/store/workspace';
-import { evidenceFor } from '@/data/work';
 import { useWorkspaceSession } from '@/lib/session/context';
-import { scopeTasks } from '@/lib/scope';
+import { scopeObligations } from '@/lib/scope';
 import { obligationById } from '@/data/obligations';
 import { announcementById } from '@/data/announcements';
 import { byId, dept as deptOf } from '@/data/org';
 import { cn, daysFromToday, fmtDate, relDays } from '@/lib/utils';
 import type { Task, TaskStatus } from '@/lib/types';
 
-const COLUMNS: TaskStatus[] = ['sent', 'in_progress', 'done'];
+const COLUMNS: TaskStatus[] = ['draft', 'sent', 'in_progress', 'done'];
 
 const TONE: Record<TaskStatus, 'neutral' | 'info' | 'warn' | 'primary' | 'danger'> = {
   draft: 'neutral',
@@ -35,9 +35,22 @@ export default function TasksPage() {
 
   const TASKS = ws.allTasks;
   const status = (x: Task) => ws.taskStatus[x.id] ?? x.status;
+  const evidenceFor = (id: string) => ws.allEvidence.filter((e) => e.taskId === id);
+
   const done = TASKS.filter((x) => status(x) === 'done').length;
-  const late = TASKS.filter((x) => status(x) !== 'done' && daysFromToday(x.due) < 0).length;
-  const soonest = [...TASKS].filter((x) => status(x) !== 'done').sort((a, b) => a.due.localeCompare(b.due))[0];
+  const sent = TASKS.filter((x) => status(x) !== 'draft').length;
+  const late = TASKS.filter((x) => status(x) !== 'done' && status(x) !== 'draft' && daysFromToday(x.due) < 0).length;
+  const soonest = [...TASKS].filter((x) => status(x) !== 'done' && status(x) !== 'draft').sort((a, b) => a.due.localeCompare(b.due))[0];
+
+  // a task may go out once the rule behind it has been approved; one raised by
+  // the self-inspection belongs to no rule and is already out
+  const confirmed = new Set(
+    scopeObligations(tenant.id, role, user)
+      .filter((o) => ws.obligationStatus[o.id] === 'confirmed')
+      .map((o) => o.id),
+  );
+  const drafts = TASKS.filter((x) => status(x) === 'draft');
+  const sendable = drafts.filter((x) => !x.obligationId || confirmed.has(x.obligationId));
 
   const obligation = open ? obligationById(open.obligationId) : undefined;
   const letter = obligation ? announcementById(obligation.announcementId) : undefined;
@@ -55,13 +68,46 @@ export default function TasksPage() {
             ? 'كل التزام معتمد يصبح مهمة، ومعها تعليمات مرقّمة يبدأ بها المسؤول فوراً.'
             : 'Every approved obligation becomes a task, with numbered instructions the owner can start on at once.'
         }
+        actions={
+          sendable.length > 0 ? (
+            <Button
+              variant="primary"
+              disabled={!role.can.assignTasks}
+              title={role.can.assignTasks ? undefined : t('perm.denied')}
+              onClick={() => ws.dispatchTasks(sendable.map((x) => x.id))}
+            >
+              <Send className="size-4" />
+              {t('send.action')} ({sendable.length})
+            </Button>
+          ) : null
+        }
       />
+
+      {/* nothing can go out until a person has approved the rule behind it */}
+      {drafts.length > 0 && sendable.length === 0 ? (
+        <div className="mb-6 flex animate-fade-up flex-wrap items-center gap-4 rounded-xl border border-warn/30 bg-warn-soft px-4 py-3">
+          <TriangleAlert className="size-4 shrink-0 text-warn" />
+          <p className="min-w-0 flex-1 text-[12.5px] font-medium text-warn">{t('send.blocked')}</p>
+          <Link
+            href="/institution/obligations"
+            className="focus-ring shrink-0 rounded-lg bg-warn px-3 py-1.5 text-[12.5px] font-semibold text-white transition hover:brightness-110"
+          >
+            {t('send.blockedGo')}
+          </Link>
+        </div>
+      ) : null}
 
       <div className="mb-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat
           label={isRtl ? 'إجمالي المهام' : 'Total tasks'}
           value={TASKS.length}
           sub={`${new Set(TASKS.map((x) => x.dept)).size} ${isRtl ? 'إدارات' : 'departments'}`}
+        />
+        <Stat
+          label={t('send.sentNow')}
+          value={sent}
+          tone={sent === 0 ? 'neutral' : 'info'}
+          sub={`${isRtl ? 'من' : 'of'} ${TASKS.length}`}
         />
         <Stat label={t('task.done')} value={done} tone="primary" sub={isRtl ? 'بأدلة مرفوعة ومختومة' : 'with evidence sealed'} />
         <Stat label={t('task.in_progress')} value={TASKS.filter((x) => status(x) === 'in_progress').length} tone="warn" />
@@ -80,21 +126,29 @@ export default function TasksPage() {
         />
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid gap-5 lg:grid-cols-4">
         {COLUMNS.map((col) => {
           const items = TASKS.filter((x) => status(x) === col);
           return (
             <section key={col}>
               <div className="mb-2.5 flex items-center gap-2">
-                <span className={cn('size-2 rounded-full', col === 'done' ? 'bg-primary' : col === 'in_progress' ? 'bg-warn' : 'bg-info')} />
-                <h2 className="text-[13px] font-semibold">{t(`task.${col}` as 'task.sent')}</h2>
+                <span
+                  className={cn(
+                    'size-2 rounded-full',
+                    col === 'done' ? 'bg-primary' : col === 'in_progress' ? 'bg-warn' : col === 'sent' ? 'bg-info' : 'bg-fg-subtle',
+                  )}
+                />
+                <h2 className="text-[13px] font-semibold">{col === 'draft' ? t('send.title') : t(`task.${col}` as 'task.sent')}</h2>
                 <span className="font-mono text-[12px] text-fg-subtle">{items.length}</span>
               </div>
               <div className="flex flex-col gap-2.5">
                 {items.length === 0 ? (
                   <Card>
                     <CardBody className="p-0">
-                      <Empty title={t('common.none')} />
+                      <Empty
+                        title={t('send.none')}
+                        hint={col === 'draft' ? undefined : col === 'sent' ? t('send.startHere') : undefined}
+                      />
                     </CardBody>
                   </Card>
                 ) : (
